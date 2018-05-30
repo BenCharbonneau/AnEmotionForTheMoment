@@ -11,13 +11,13 @@ import CurrentEmotion from '../CurrentEmotion';
 import FriendRow from '../FriendRow';
 import styles from '../style';
 
-export default function FriendHex(props) {
-  const friends = props.friends;
+export default function FriendHex({friends,emotion,showSel}) {
+
   const rows = [];
   let row = [];
   let maxRowNum = Math.ceil(Math.sqrt(1 + 4*(friends.length)/3))
   if (maxRowNum%2 === 0) {
-    maxRowNum+1;
+    maxRowNum++;
   }
   let smallRowLength = 2;
   let middleRow = Math.ceil(maxRowNum/2) - 1;
@@ -69,7 +69,7 @@ export default function FriendHex(props) {
   //let maxLongRowLength = (maxSmallRowLength+(maxRowNum-1)/2);
 
   if (rows.length) {
-  
+
     topOfHex = rows.slice(0,middleRow).map((friendRow,i) => {
       return (<FriendRow key={i} friends={friendRow}/>);
     });
@@ -82,7 +82,7 @@ export default function FriendHex(props) {
     //   padTo++;
     // }
 
-    centerRow = <FriendRow key={"curr"} friends={rows.slice(middleRow,middleRow+1)[0]} emotion={props.emotion} showSel={props.showSel}/>
+    centerRow = <FriendRow key={"curr"} friends={rows.slice(middleRow,middleRow+1)[0]} emotion={emotion} center={true} showSel={showSel}/>
 
     bottomOfHex = rows.slice(middleRow+1).map((friendRow,i) => {
       return (<FriendRow key={i} friends={friendRow}/>);
@@ -96,7 +96,7 @@ export default function FriendHex(props) {
 
   }
   else {
-    centerRow = <CurrentEmotion emotion={props.emotion} showSel={props.showSel}/>
+    centerRow = <CurrentEmotion emotion={emotion} showSel={showSel}/>
   }
 
   return (

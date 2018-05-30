@@ -20,7 +20,16 @@ export default class Login extends Component {
     super();
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      register: false
+    }
+  }
+  toggleRegister = (e) => {
+    if (!this.state.register) {
+      this.setState({register: true})
+    }
+    else {
+      this.setState({register: false})
     }
   }
   updateText = (e) => {
@@ -32,16 +41,17 @@ export default class Login extends Component {
     this.setState(stateObj);
   }
   handleSubmit = (e) => {
-    this.props.updateUser(this.state.username,this.state.password);
+    this.props.updateUser(this.state.username,this.state.password,this.state.register);
     this.setState({ password: '' });
   }
   render() {
     return (
       <View>
-        <Text>Login</Text>
+        <Text>{this.state.register ? 'Register' : 'Login' }</Text>
         <TextInput name='username' placeholder='Username' onChange={this.updateText}/>
         <PasswordInputText name='password' placeholder='Password' onChange={this.updateText}/>
-        <Button onPress={this.handleSubmit} title='Login' />
+        <Button onPress={this.handleSubmit} title={this.state.register ? 'Register' : 'Login' }/>
+        <Text onPress={this.toggleRegister}>{this.state.register ? 'Click here to login' : 'Click here to register' }</Text>
       </View>
     );
   }

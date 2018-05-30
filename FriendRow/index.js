@@ -33,7 +33,7 @@ export default function FriendRow(props) {
 
 	// }
 
-	if (props.emotion) {
+	if (props.center) {
 		friends.splice(friends.length/2,0,<CurrentEmotion key={"currEm"} emotion={props.emotion} showSel={props.showSel}/>);
 	}
 

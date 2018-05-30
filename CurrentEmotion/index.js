@@ -11,6 +11,6 @@ import styles from '../style.js';
 
 export default function CurrentEmotion(props) {
 	return (
-		<Text style={styles.emoji} onPress={props.showSel}>{props.emotion}</Text>
+		<Text style={styles.emoji} onPress={props.showSel}>{props.emotion ? props.emotion : '😀'}</Text>
 	);
 }
