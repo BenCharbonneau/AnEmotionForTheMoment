@@ -14,7 +14,7 @@ import SocketIOClient from 'socket.io-client';
 import env from '../env';
 import styles from '../style';
 
-export default class DashboardContainer extends Component<Props> {
+export default class CreateFriendRequest extends Component<Props> {
   constructor() {
   	super();
   	this.state = {
@@ -27,6 +27,9 @@ export default class DashboardContainer extends Component<Props> {
   }
   componentDidMount() {
     this.getUsers()
+  }
+  componentWillUnmount() {
+    this.socket.close();
   }
   getUsers = async () => {
     try {
@@ -88,7 +91,7 @@ export default class DashboardContainer extends Component<Props> {
     return (
       <View style={styles.view}>
         {users}
-        <Button onPress={this.props.hideFReq} title='Done'/>
+        <Button onPress={this.props.hide} title='Done'/>
       </View>
     );
   }

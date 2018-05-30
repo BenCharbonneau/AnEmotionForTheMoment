@@ -10,6 +10,7 @@ import {
 import AddEmotion from '../AddEmotion';
 import FriendHex from '../FriendHex';
 import CrtFrndReq from '../CreateFriendRequest';
+import ShowFriendRequests from '../ShowFriendRequests';
 import env from '../env';
 import styles from '../style';
 
@@ -33,6 +34,9 @@ export default class DashboardContainer extends Component<Props> {
     this.getEmotion();
 
   	this.getFriendsEmotions();
+  }
+  componentWillUnmount() {
+    this.socket.close();
   }
   getEmotion = async () => {
     const userJSON = await fetch('http://'+env.ip+':3000/users/'+this.props.userId)
@@ -74,6 +78,9 @@ export default class DashboardContainer extends Component<Props> {
   showFReq = () => {
     this.setState({page: 'friend request', help: ''})
   }
+  showFCrtReq = () => {
+    this.setState({page: 'create friend request', help: ''})
+  }
   showHome = () => {
     this.setState({page: ''})
   }
@@ -98,7 +105,9 @@ export default class DashboardContainer extends Component<Props> {
     switch (this.state.page) {
       case 'emotion select': page = <AddEmotion addEmotion={this.addEmotion}/>
       break;
-      case 'friend request': page = <CrtFrndReq hideFReq={this.showHome} userId={this.props.userId} />
+      case 'friend request': page = <ShowFriendRequests hide={this.showHome} userId={this.props.userId} />
+      break;
+      case 'create friend request': page = <CrtFrndReq hide={this.showHome} userId={this.props.userId} />
       break;
       default: page = <FriendHex emotion={this.state.emotion} showSel={this.showSel} friends={this.state.friends} />
     }
@@ -106,7 +115,8 @@ export default class DashboardContainer extends Component<Props> {
     return (
       <View style={styles.view}>
         <Text style={styles.header}>An Emotion for the Moment</Text>
-        <Text onPress={this.showFReq}>{this.state.page ? '' : 'Click here to send a friend request'}</Text>
+        <Text onPress={this.showFCrtReq}>{this.state.page ? '' : 'Click here to send a friend request'}</Text>
+        <Text onPress={this.showFReq}>{this.state.page ? '' : 'Click here to see your friend requests'}</Text>
         <Text>{this.state.help}</Text>
         <Text>{this.state.message}</Text>
         {page}
