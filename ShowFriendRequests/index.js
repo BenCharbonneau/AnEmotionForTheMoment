@@ -21,7 +21,7 @@ export default class ShowFriendRequests extends Component<Props> {
   		friendReqs: []
   	}
 
-    this.socket = SocketIOClient('http://'+env.ip+':3000');
+    this.socket = SocketIOClient(env.server);
   
   }
   componentDidMount() {
@@ -37,7 +37,9 @@ export default class ShowFriendRequests extends Component<Props> {
         this.setState({ friendReqs: freqs });
       })
 
-      await fetch('http://'+env.ip+':3000/friends/requests/'+this.props.userId);
+      await fetch(env.server+'/friends/requests/'+this.props.userId,{
+        credentials: 'include'
+      });
       
     }
     catch (err) {
@@ -54,8 +56,9 @@ export default class ShowFriendRequests extends Component<Props> {
 
       this.setState({ friendReqs: newFrndReqs})
 
-      fetch('http://'+env.ip+':3000/friends/request/accept/'+requestId,{
-        method: 'POST'
+      fetch(env.server+'/friends/request/accept/'+requestId,{
+        method: 'POST',
+        credentials: 'include'
       })
     }
     catch (err) {
@@ -65,11 +68,12 @@ export default class ShowFriendRequests extends Component<Props> {
   render() {
 
     const freqs = this.state.friendReqs.map((freq) => {
-      return <Text key={freq.id} id={freq.id} onPress={this.acceptFriendRequest}>{freq.requestor.username}</Text>
+      return <Text style={styles.frndReqRow} key={freq.id} id={freq.id} onPress={this.acceptFriendRequest}>{freq.requestor.username}</Text>
     })
 
     return (
       <View style={styles.view}>
+      	<Text style={styles.text}>Click on a username to accept their friend request</Text>
         {freqs}
         <Button onPress={this.props.hide} title='Done'/>
       </View>

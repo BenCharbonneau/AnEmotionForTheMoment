@@ -11,6 +11,7 @@ import AddEmotion from '../AddEmotion';
 import FriendHex from '../FriendHex';
 import CrtFrndReq from '../CreateFriendRequest';
 import ShowFriendRequests from '../ShowFriendRequests';
+import NavMenu from '../NavMenu';
 import env from '../env';
 import styles from '../style';
 
@@ -27,7 +28,7 @@ export default class DashboardContainer extends Component<Props> {
       help: ''
   	}
 
-    this.socket = SocketIOClient('http://'+env.ip+':3000');
+    this.socket = SocketIOClient(env.server);
   
   }
   componentDidMount() {
@@ -39,8 +40,11 @@ export default class DashboardContainer extends Component<Props> {
     this.socket.close();
   }
   getEmotion = async () => {
-    const userJSON = await fetch('http://'+env.ip+':3000/users/'+this.props.userId)
+    const userJSON = await fetch(env.server+'/users/'+this.props.userId,{
+      credentials: 'include'
+    })
     const user = await userJSON.json();
+
     const emotion = user.user.emotion;
     
     if (emotion) {
@@ -59,12 +63,14 @@ export default class DashboardContainer extends Component<Props> {
         this.setState({ friends: friends.friends });
       })
 
-      await fetch('http://'+env.ip+':3000/friends/'+this.props.userId);
+      await fetch(env.server+'/friends/'+this.props.userId,{
+        credentials: 'include'
+      });
 
-      // const messageJSON = await fetch('http://'+env.ip+':3000');
+      // const messageJSON = await fetch(env.server);
       // const message = await messageJSON.json();
       // this.setState({message: message.message});
-      // const friendsJSON = await fetch('http://'+env.ip+'8:3000/friends/'+this.props.userId);
+      // const friendsJSON = await fetch(env.server+'/friends/'+this.props.userId);
       // const friends = await friendsJSON.json();
       // this.setState({ friends: friends.friends });
     }
@@ -86,8 +92,9 @@ export default class DashboardContainer extends Component<Props> {
   }
   addEmotion = (emoji) => {
     try {
-      fetch('http://'+env.ip+':3000/users/emotion/'+this.props.userId,{
+      await fetch(env.server+'/users/emotion/'+this.props.userId,{
         method: 'PATCH',
+        credentials: 'include',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           emotion: emoji.native
@@ -112,13 +119,22 @@ export default class DashboardContainer extends Component<Props> {
       default: page = <FriendHex emotion={this.state.emotion} showSel={this.showSel} friends={this.state.friends} />
     }
 
+    let message;
+    if (this.state.message) {
+      message = <Text style={styles.text}>{this.state.message}</Text>
+    }
+
+    let help;
+    if (this.state.help) {
+      help = <Text style={styles.text}>{this.state.help}</Text>
+    }
+
     return (
       <View style={styles.view}>
         <Text style={styles.header}>An Emotion for the Moment</Text>
-        <Text onPress={this.showFCrtReq}>{this.state.page ? '' : 'Click here to send a friend request'}</Text>
-        <Text onPress={this.showFReq}>{this.state.page ? '' : 'Click here to see your friend requests'}</Text>
-        <Text>{this.state.help}</Text>
-        <Text>{this.state.message}</Text>
+        <NavMenu showFReq={this.showFReq} showFCrtReq={this.showFCrtReq} showHome={this.showHome} page={this.state.page}/>
+        {help}
+        {message}
         {page}
       </View>
     );

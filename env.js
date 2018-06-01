@@ -1,5 +1,7 @@
+const ip = '172.20.0.180'
+
 const environment = {
-	ip: '172.20.0.162'
+	server: 'http://'+ip+':3000'
 };
 
 export default environment;

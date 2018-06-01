@@ -22,5 +22,32 @@ export default StyleSheet.create({
 	friendRow: {
 		flexDirection: 'row',
 		justifyContent: 'center'
+	},
+	frndReqRow: {
+		textAlign: 'center',
+		borderColor: 'black',
+		borderStyle: 'solid',
+		borderWidth: 1,
+		margin: 5
+	},
+	text: {
+		textAlign: 'center'
+	},
+	nav: {
+		flexDirection: 'row',
+		justifyContent: 'center'
+	},
+	input: {
+		marginLeft: 15,
+		marginRight: 15
+	},
+	label: {
+		marginLeft: 15,
+		marginTop: 10
+	},
+	message: {
+		color: 'red',
+		margin: 10,
+		textAlign: 'center'
 	}
 });

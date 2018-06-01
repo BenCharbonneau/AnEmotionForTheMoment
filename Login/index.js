@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react';
 import ReactNativeComponentTree from 'react-native/Libraries/Renderer/shims/ReactNativeComponentTree';
-import PasswordInputText from 'react-native-hide-show-password-input';
 import {
   Platform,
   StyleSheet,
@@ -14,6 +13,7 @@ import {
   Button,
   FormInput
 } from 'react-native-elements';
+import styles from '../style';
 
 export default class Login extends Component {
   constructor() {
@@ -47,11 +47,13 @@ export default class Login extends Component {
   render() {
     return (
       <View>
-        <Text>{this.state.register ? 'Register' : 'Login' }</Text>
-        <TextInput name='username' placeholder='Username' onChange={this.updateText}/>
-        <PasswordInputText name='password' placeholder='Password' onChange={this.updateText}/>
+        <Text style={styles.header}>{this.state.register ? 'Register' : 'Login' }</Text>
+        {this.props.message ? <Text style={styles.text}>{this.props.message}</Text> : undefined}
+        <Text style={styles.label}>Username</Text>
+        <TextInput name='username' style={styles.input} onChange={this.updateText} autoFocus={true} value={this.state.username}/>
+        <TextInput name='password' style={styles.input} onChange={this.updateText} secureTextEntry={true} placeholder='Password' value={this.state.password}/>
         <Button onPress={this.handleSubmit} title={this.state.register ? 'Register' : 'Login' }/>
-        <Text onPress={this.toggleRegister}>{this.state.register ? 'Click here to login' : 'Click here to register' }</Text>
+        <Text onPress={this.toggleRegister} style={styles.text} >{this.state.register ? 'Click here to login' : 'Click here to register' }</Text>
       </View>
     );
   }

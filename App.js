@@ -32,15 +32,17 @@ export default class App extends Component<Props> {
       })
 
       if (register) {
-        respJSON = await fetch('http://'+env.ip+':3000/users/register',{
+        respJSON = await fetch(env.server+'/users/register',{
           method: 'POST',
+          credentials: 'include',
           headers: { "Content-Type": "application/json" },
           body: body
         })
       }
       else {
-        respJSON = await fetch('http://'+env.ip+':3000/users/login',{
+        respJSON = await fetch(env.server+'/users/login',{
           method: 'POST',
+          credentials: 'include',
           headers: { "Content-Type": "application/json" },
           body: body
         })
@@ -68,17 +70,11 @@ export default class App extends Component<Props> {
       comp = <DashboardContainer userId={this.state.userId}/>
     }
     else {
-      comp = <Login updateUser={this.updateUser}/>
-    }
-
-    let message;
-    if (this.state.message) {
-      message = <Text>{this.state.message}</Text>
+      comp = <Login message={this.state.message} updateUser={this.updateUser}/>
     }
 
     return (
       <View>
-        {message}
         {comp}
       </View>
     );
