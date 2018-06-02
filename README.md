@@ -1,6 +1,6 @@
 #An Emotion for the Moment App
 
-This app allows you to share how you're feeling with your friends. You can send and accept friend requests and then set your emotion for the moment to share it with your new friends.
+This app allows you to share how you're feeling with your friends. You can send and accept friend requests and then set your emotion for the moment to share it with your new friends. It uses API endpoints that are exposed at https://an-emotion-for-the-moment-api.herokuapp.com/ and documented at https://github.com/BenCharbonneau/AnEmotionForTheMomentAPI.
 
 ## User stories
 
@@ -13,6 +13,14 @@ This app allows you to share how you're feeling with your friends. You can send 
 * Users will be able to cancel a friend request or unfriend someone
 * Users will be able to delete their account
 * Users will be able to message each other
+
+## Screenshots
+
+![Login](https://raw.githubusercontent.com/BenCharbonneau/AnEmotionForTheMoment/master/screenshots/Login.png)
+![Dashboard](https://raw.githubusercontent.com/BenCharbonneau/AnEmotionForTheMoment/master/screenshots/Dashboard.png)
+![Update emotion](https://raw.githubusercontent.com/BenCharbonneau/AnEmotionForTheMoment/master/screenshots/Update%20Emotion.png)
+![Send a friend request](https://raw.githubusercontent.com/BenCharbonneau/AnEmotionForTheMoment/master/screenshots/Send%20Friend%20Request.png)
+![Accept a friend request](https://raw.githubusercontent.com/BenCharbonneau/AnEmotionForTheMoment/master/screenshots/Accept%20Friend%20Request.png)
 
 ## Technologies used
 
