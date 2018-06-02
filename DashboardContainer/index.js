@@ -90,7 +90,7 @@ export default class DashboardContainer extends Component<Props> {
   showHome = () => {
     this.setState({page: ''})
   }
-  addEmotion = (emoji) => {
+  addEmotion = async (emoji) => {
     try {
       await fetch(env.server+'/users/emotion/'+this.props.userId,{
         method: 'PATCH',
