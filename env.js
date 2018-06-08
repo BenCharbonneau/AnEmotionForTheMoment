@@ -1,7 +1,5 @@
-const ip = '172.20.0.180'
-
 const environment = {
-	server: 'http://'+ip+':3000'
+	server: 'https://an-emotion-for-the-moment-api.herokuapp.com'
 };
 
 export default environment;
