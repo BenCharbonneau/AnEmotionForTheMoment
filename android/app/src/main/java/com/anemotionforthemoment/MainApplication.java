@@ -1,4 +1,4 @@
-package com.propertyfinder;
+package com.anemotionforthemoment;
 
 import android.app.Application;
 
