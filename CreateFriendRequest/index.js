@@ -19,47 +19,22 @@ export default class CreateFriendRequest extends Component<Props> {
   constructor() {
   	super();
   	this.state = {
-  		//users: [],
       canReqUsers: [],
       message: ''
   	}
-
-    //this.socket = SocketIOClient('http://'+env.ip+':3000');
-  
   }
-  // componentDidMount() {
-  //   this.getUsers()
-  // }
-  // componentWillUnmount() {
-  //   this.socket.close();
-  // }
   getUsers = async (text) => {
     try {
 
-      // this.socket.on("userlist", (users) => {
-      //   const newUsers = users.filter((user) => {
-      //     return !this.state.users.includes(user.id);
-      //   })
-
-      //   const newUserIds = newUsers.map((user) => {
-      //     return user.id;
-      //   })
-
-      //   this.setState({ users: [...this.state.users, ...newUserIds], canReqUsers: [...this.state.canReqUsers, ...newUsers] });
-      // })
       if (text) {
 
+        //search for users using the search term provided by the user
         const usersJSON = await fetch(env.server+'/friends/requestsearch/'+ this.props.userId + '/' + text,{
           credentials: 'include'
         });
         const users = await usersJSON.json();
 
-        // const userIds = users.users.map((user) => {
-        //   return user.id;
-        // })
-
-        //this.setState({ users: userIds, canReqUsers: users.users });
-
+        //put the returned users in state
         this.setState({canReqUsers: users.users, message: ''});
       }
 
@@ -70,12 +45,16 @@ export default class CreateFriendRequest extends Component<Props> {
   }
   sendFriendRequest = async (e) => {
     try {
+
+      //get the user that the current user clicked on
       const friendText = ReactNativeComponentTree.getInstanceFromNode(e.target);
       const friendId = friendText.memoizedProps.id;
 
+      //clear out the search input and results
       this.textInput.setNativeProps({text: ''})
       this.setState({ canReqUsers: []})
 
+      //send the request to the server
       fetch(env.server+'/friends/request/'+this.props.userId,{
         method: 'POST',
         credentials: 'include',
@@ -85,6 +64,7 @@ export default class CreateFriendRequest extends Component<Props> {
         })
       })
 
+      //let the user know that their request was sent
       this.setState({message: "Friend request sent."})
     }
     catch (err) {
@@ -93,6 +73,7 @@ export default class CreateFriendRequest extends Component<Props> {
   }
   render() {
 
+    //create a list of users from the search
     const users = this.state.canReqUsers.map((user) => {
       if (!user.message) {
         return <Text style={styles.frndReqRow} key={user.id} id={user.id} onPress={this.sendFriendRequest}>{user.username}</Text>

@@ -13,6 +13,7 @@ import {
 import styles from '../style.js';
 
 export default function NavMenu({showFReq,showFCrtReq,showHome,page}) {
+  //generate a navigation menu
 	return (
 		<View style={styles.nav} >
 			{page !== 'create friend request' ? <Button onPress={showFCrtReq} title='Send Friend Request' /> : undefined }

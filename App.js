@@ -25,6 +25,8 @@ export default class App extends Component<Props> {
   }
   updateUser = async (username,password,register) => {
     try {
+      //login or register a user on the server
+
       let respJSON;
       const body = await JSON.stringify({
         username: username,
@@ -51,9 +53,11 @@ export default class App extends Component<Props> {
       const response = await respJSON.json();
       const user = response.user;
 
+      //if successful, login the user
       if (user) {
         this.setState({ username: user.username, userId: user.id, message: '' });
       }
+      //otherwise, show any error messages
       else {
         this.setState({ message: response.message })
       }
@@ -66,9 +70,11 @@ export default class App extends Component<Props> {
 
     let comp;
 
+    //show the dashboard if the user is logged in
     if (this.state.userId) {
       comp = <DashboardContainer userId={this.state.userId}/>
     }
+    //otherwise, show the login page
     else {
       comp = <Login message={this.state.message} updateUser={this.updateUser}/>
     }

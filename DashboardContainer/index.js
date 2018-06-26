@@ -28,6 +28,7 @@ export default class DashboardContainer extends Component<Props> {
       help: ''
   	}
 
+    //open a web socket with the server
     this.socket = SocketIOClient(env.server);
   
   }
@@ -37,47 +38,48 @@ export default class DashboardContainer extends Component<Props> {
   	this.getFriendsEmotions();
   }
   componentWillUnmount() {
+    //close the web socket
     this.socket.close();
   }
   getEmotion = async () => {
+
+    //get the current user's information from the server
     const userJSON = await fetch(env.server+'/users/'+this.props.userId,{
       credentials: 'include'
     })
     const user = await userJSON.json();
 
+    //get the user's emotion
     const emotion = user.user.emotion;
     
+    //add the emotion to state
     if (emotion) {
       this.setState({emotion: emotion})
     }
+    //if the user doesn't have an emotion, then show help text telling them how to change it
     else {
       this.setState({help: 'Click your emotion below to change it'})
     }
   }
   getFriendsEmotions = async () => {
     try {
-      // await this.socket.on("message",(message) => {
-      //   console.error(message)
-      // })
+
+      //listen for updates to the user's friend list
       this.socket.on(this.props.userId, (friends) => {
         this.setState({ friends: friends.friends });
       })
 
+      //tell the server to start listening for the user's friends
       await fetch(env.server+'/friends/'+this.props.userId,{
         credentials: 'include'
       });
 
-      // const messageJSON = await fetch(env.server);
-      // const message = await messageJSON.json();
-      // this.setState({message: message.message});
-      // const friendsJSON = await fetch(env.server+'/friends/'+this.props.userId);
-      // const friends = await friendsJSON.json();
-      // this.setState({ friends: friends.friends });
     }
     catch (err) {
       console.error(err);
     }
   }
+  //show functions to select the "page" to display to the user
   showSel = () => {
     this.setState({page: 'emotion select'})
   }
@@ -90,8 +92,11 @@ export default class DashboardContainer extends Component<Props> {
   showHome = () => {
     this.setState({page: ''})
   }
+  //end show functions
   addEmotion = async (emoji) => {
     try {
+
+      //update the user's emtoion on the server
       await fetch(env.server+'/users/emotion/'+this.props.userId,{
         method: 'PATCH',
         credentials: 'include',
@@ -101,6 +106,7 @@ export default class DashboardContainer extends Component<Props> {
         })
       });
 
+      //update the user's emotion in state
       this.setState({ emotion: emoji.native, page: '', help: '' });
     }
     catch (err) {
@@ -108,6 +114,8 @@ export default class DashboardContainer extends Component<Props> {
     }
   }
   render() {
+
+    //get the page to show from state
     let page;
     switch (this.state.page) {
       case 'emotion select': page = <AddEmotion addEmotion={this.addEmotion}/>
@@ -119,11 +127,13 @@ export default class DashboardContainer extends Component<Props> {
       default: page = <FriendHex emotion={this.state.emotion} showSel={this.showSel} friends={this.state.friends} />
     }
 
+    //get any messages from the server to display to the user
     let message;
     if (this.state.message) {
       message = <Text style={styles.text}>{this.state.message}</Text>
     }
 
+    //get any help text from state to display to the user
     let help;
     if (this.state.help) {
       help = <Text style={styles.text}>{this.state.help}</Text>

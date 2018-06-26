@@ -24,6 +24,7 @@ export default class Login extends Component {
       register: false
     }
   }
+  //toggle state to specify whether the user is trying to login or register
   toggleRegister = (e) => {
     if (!this.state.register) {
       this.setState({register: true})
@@ -32,6 +33,7 @@ export default class Login extends Component {
       this.setState({register: false})
     }
   }
+  //get any user inputs and save them to state
   updateText = (e) => {
     const input = ReactNativeComponentTree.getInstanceFromNode(e.target);
     const name = input.memoizedProps.name;
@@ -40,6 +42,7 @@ export default class Login extends Component {
     stateObj[name] = text;
     this.setState(stateObj);
   }
+  //handle the form submission
   handleSubmit = (e) => {
     this.props.updateUser(this.state.username,this.state.password,this.state.register);
     this.setState({ password: '' });

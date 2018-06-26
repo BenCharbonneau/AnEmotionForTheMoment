@@ -31,15 +31,13 @@ This app allows you to share how you're feeling with your friends. You can send 
 
 ## ToDo list
 
-* Finish deploying the server
-* Deploy to the play store (requires SSL maybe?)
-* Clean up unused npm packages
+* Prevent users from sending multiple friend requests to the same user
 * Show users friend requests that they've sent
 * Collect user's names during account creation
 * Show users' names next to their username in the friend request page
-* Add comments to code and clean out old comments
 * Let users cancel a friend request/friendship
 * Let users delete their account
+* Switch to using asynchronous bcrypt
 * Move the friend hex to a CSS grid (if it's possible in React Native)
 * Make the emoji select open immediately for a new user that has no emotion
 * Update nav menu to use react-navigation ( tutorial here: https://www.raywenderlich.com/178012/react-native-tutorial-building-android-apps-javascript )
